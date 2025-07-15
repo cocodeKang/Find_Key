@@ -20,12 +20,11 @@
 <body>
   <div class="container" id="container"></div>
   <script>
-    // 실제 GitHub Raw URL로 수정하세요
-    const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/yourusername/yourrepo/main/';
+    // GitHub Raw URL: 사용자명/저장소명에 맞게 수정
+    const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/cocodeKang/cocodeKang/main/';
     const images = ["말씀.png", "성례.png", "기도.png", "은혜.png"];
-    // 카드 앞면 배열: 4개의 이미지 + 26개의 빈 값
     const fronts = [...images, ...Array(26).fill(null)];
-    // 배열 섞기
+
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -33,27 +32,34 @@
       }
     }
     shuffle(fronts);
+
     const container = document.getElementById('container');
     fronts.forEach((img, index) => {
       const card = document.createElement('div');
       card.className = 'card';
       const inner = document.createElement('div');
       inner.className = 'inner';
+
+      // 앞면
       const front = document.createElement('div');
       front.className = 'face front';
       if (img) {
         const imageElement = document.createElement('img');
-        imageElement.src = IMAGE_BASE_URL + img;
+        // 한글 파일명 인코딩 처리
+        imageElement.src = encodeURI(IMAGE_BASE_URL + img);
         imageElement.alt = img;
         front.appendChild(imageElement);
       }
+
+      // 뒷면
       const back = document.createElement('div');
       back.className = 'face back';
       back.textContent = index + 1;
+
       inner.appendChild(front);
       inner.appendChild(back);
       card.appendChild(inner);
-      // 클릭 시 카드 뒤집기
+
       card.addEventListener('click', () => {
         card.classList.toggle('flipped');
       });
